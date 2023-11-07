@@ -1,0 +1,21 @@
+EmployeeID,Name,Position,Department,Email,DateJoined
+1,John Doe,Software Engineer,Development,johndoe@example.com,2018-06-01
+2,Jane Smith,Project Manager,Management,janesmith@example.com,2017-04-15
+3,Bob Johnson,System Analyst,IT,bobjohnson@example.com,2019-01-10
+4,Sarah Lee,Database Administrator,IT,sarahlee@example.com,2020-03-20
+5,Anna Nguyen,Network Engineer,IT,annanguyen@example.com,2018-07-30
+6,Mark Johnson,Software Tester,Quality Assurance,markjohnson@example.com,2019-11-05
+7,Paul Adams,Web Developer,Development,pauladams@example.com,2020-05-12
+8,Adriana Gomez,IT Support Specialist,IT,adrianagomez@example.com,2017-09-18
+9,Bob Williams,Security Analyst,IT,bobwilliams@example.com,2018-02-28
+10,Sarah Thompson,IT Manager,Management,sarahthompson@example.com,2016-08-22
+11,Anna Davis,Software Engineer,Development,annadavis@example.com,2019-06-14
+12,Mark Wilson,Project Manager,Management,markwilson@example.com,2017-12-01
+13,Samantha Brown,Database Administrator,IT,samanthabrown@example.com,2020-01-15
+14,Dave Miller,System Analyst,IT,davemiller@example.com,2018-10-20
+15,Jennifer Taylor,Network Engineer,IT,jennifertaylor@example.com,2019-07-25
+16,Michael Anderson,Software Tester,Quality Assurance,michaelanderson@example.com,2020-04-10
+17,Paul Thomas,Web Developer,Development,paulthomas@example.com,2017-05-05
+18,Adriana Jackson,IT Support Specialist,IT,adrianajackson@example.com,2018-03-30
+19,Bob White,Security Analyst,IT,bobwhite@example.com,2019-02-20
+20,Sarah Harris,IT Manager,Management,sarahharris@example.com,2016-09-12

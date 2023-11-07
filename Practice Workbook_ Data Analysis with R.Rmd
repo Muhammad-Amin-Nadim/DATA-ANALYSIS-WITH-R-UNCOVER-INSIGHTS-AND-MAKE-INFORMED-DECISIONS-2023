@@ -1,0 +1,637 @@
+---
+title: 'Practice Notebook: Data Analysis with R'
+output: html_document
+date: "2023-11-07"
+---
+
+# Practice Workbook: Data Analysis with R
+
+## 1. Importing datasets
+
+### Example 1
+
+```{r}
+# Import dataset
+df1 <- read.csv("https://afterwork.ai/ds/e/information_technology_90eiq.csv")
+
+# View first 6 rows of the dataset
+head(df1)
+```
+
+```{r}
+# We can view a specific number of records by passing a second argument to the head() function
+head(df1, 10)
+```
+
+### Example 2
+
+```{r}
+# We can also use the readr library to import data
+
+# importing the readr library
+library(readr)
+
+# Import dataset
+df2 <- read_csv("https://afterwork.ai/ds/e/information_technology_90eiq.csv")
+
+# View first 6 rows of the dataset
+head(df2)
+```
+
+### Example 3
+
+```{r}
+# We can use the str() function to display a compact and informative summary of the object's data type, 
+# the type and structure of its components, and the first few elements.  
+#
+str(df2)
+```
+
+### Example 4
+
+```{r}
+# We can also upload and load a CSV file:
+# Step 1) Navigate to current working directory using the Files Pane on the bottom right section of R studio. 
+# Step 2) Download the dataset from http://bit.ly/CitiesDataset1 and using your computer's file manager, upload it to your current working directory.
+# Step 3) Lastly, reading the dataset using the name of the file i.e. cities.csv
+
+cities_df <- read.csv("cities.csv")
+cities_df
+```
+
+### Challenge 1
+
+```{r}
+# Write code that imports the dataset from https://afterwork.ai/ds/ch/information_technology_y7ld.csv. Use the read.csv() function to read the dataset and the head() function to read the first 6 records. 
+
+```
+
+### Challenge 2
+
+```{r}
+# Write code  that imports the dataset from https://afterwork.ai/ds/ch/information_technology_y7ld.csv. Use the readr library to perform this task. Later, display the first 10 records. 
+
+```
+
+### Challenge 3
+
+```{r}
+# Write code that displays the structure of the dataset that you imported in challenge 2. 
+
+```
+
+## 2. Performing Data Exploration
+
+### Example 1: Preview the last recods
+
+```{r}
+# To preview the last 6 records of a dataset, we use the tail function, padding the dataframe name as the only argument.
+tail(df1)
+```
+
+```{r}
+# If we want to preview a specific number of last records, we pass a second argument to the tail function.
+tail(df1, 5)
+```
+
+### Example 2: Installing and loading tidyverse
+
+```{r}
+# Sometimes we might want to preview an unbiased number of dataset records. We use the sample_n() function and pass the dataframe name and number of samples as the arguments.  
+
+# import and load the tidyverse library 
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+### Example 3: Sampling (without replacement)
+
+```{r}
+# Sample the 5 records without replacement
+sample_n(df1, 5)
+```
+
+### Example 4: Size of the dataset
+
+```{r}
+# Lastly, to quickly check the size of the dataset without displaying additional information, we use the `dim ()` function.
+dim(df1)
+```
+
+### Challenge 1
+
+```{r}
+# Preview the first 6 records of the df2 dataset.
+
+```
+
+### Challenge 2
+
+```{r}
+# Challenge 2: Preview the last 10 records of the df2 dataset.
+
+```
+
+### Challenge 3
+
+```{r}
+# Challenge 3: Sample 5 records from the df2 dataset without replacement. 
+
+```
+
+### Challenge 4
+
+```{r}
+# Challenge 4: Preview the dataset to see the variable names and datatypes of the df2 dataset.
+
+```
+
+### Challenge 5
+
+```{r}
+# Challenge 5: Using the df2 dataset, preview the number of records and variables.
+
+```
+
+## 3. Performing Standardisation
+
+### Example 1: Importing the dataset and displaying the columns
+
+```{r}
+# Import the dataset
+data_cleaning_df <- read.csv("http://bit.ly/DataCleaningDataset")
+
+# Preview the dataset
+head(data_cleaning_df)
+```
+
+```{r}
+# Import the dataset from a CSV file while defining a separator ";", and then loading the entire dataframe. 
+# The dataset columns are separated by ";".
+data_cleaning_df <- read.csv("http://bit.ly/DataCleaningDataset", sep=';')
+head(data_cleaning_df)
+```
+
+### Example 2: Getting the column names
+
+```{r}
+# Get column names of the data cleaning dataset (http://bit.ly/DataCleaningDataset).
+names(df2)
+```
+
+### Example 3: Lowercase the column names
+
+```{r}
+# We use the make.names() function to convert column names to lowercase and replace spaces with underscores. 
+# We set allow_ = "_" to replace spaces with underscores and the unique = TRUE argument ensures 
+# that the resulting column names are unique to avoid any naming conflicts.
+
+# We first convert the original column names to lowercase using tolower()
+new_names <- tolower(names(df2))
+
+# Later, we replace spaces with underscores
+new_names <- gsub(" ", "_", new_names)
+
+# And assign the new names to the data frame
+names(df2) <- new_names
+
+# Check the updated column names
+names(df2)
+```
+
+### Example 4: Strip the leading and trailing spaces
+
+```{r}
+# We can strip the leading and trailing spaces of column names using the `trimws()` function. For the arguments, we set the value of the which parameter to "both" which defines that the leading and trailing spaces will be stripped.
+
+# Strip the leading and trailing spaces
+names(df2) <- trimws(names(df2), which = c("both"))
+names(df2)
+```
+
+### Challenge 1
+
+```{r}
+# Challenge 1: Determine the column names of the df2 dataset.
+
+```
+
+### Challenge 2
+
+```{r}
+# Challenge 2: Update the column names of the df2 with lowercased column names.
+
+```
+
+### Challenge 3
+
+```{r}
+# Challenge 3: Strip the leading and trailing spaces in column names of the df2 dataset. 
+
+```
+
+### Challenge 4
+
+```{r}
+# Challenge 4: Lowercase the column names of the df2 dataset.
+
+```
+
+## 4. Removing Irrelevant Columns
+
+#### Example
+
+```{r}
+# Let's drop the city and country columns in the data cleaning dataset using the `select()` function which will take the dataframe name and a vector of the columns we intend to exclude. We use `-` operator to define the column names we don't want.
+
+df2 = select(df2, -c("city", "country"))
+head(df2)
+```
+
+#### Challenge
+
+```{r}
+# Challenge 1: Drop the item visibility variable in the following dataset: https://bit.ly/ShoprityDS
+
+```
+
+## 5. Filtering
+
+### Pre-requisite
+
+```{r}
+# Let's first import the dataset that we will use in the examples.
+iris_df <- read.csv("http://bit.ly/IrisDataset")
+head(iris_df)
+```
+
+### Example 1: Filter a single column
+
+```{r}
+# Selecting a single column
+# ---
+# Method 1: We can filter a column using the `select()` function, passing the dataframe and column to be selected.
+
+select(iris_df, sepal_length)
+```
+
+```{r}
+# Method 2: We can also define the dataset, use a pipe %>%, and then define the column column to be selected using the `select()` function.
+iris_df %>% 
+  select(sepal_length) 
+```
+
+### Example 2: Filtering multiple columns
+
+```{r}
+# Selecting multiple columns
+# ---
+# Method 1: To filter multple columns, we can use the `select()` function and then pass the dataframe and the dataframe names as arguments.
+
+select(iris_df, sepal_length, petal_length)
+```
+
+```{r}
+# Method 2
+iris_df %>% 
+  select(sepal_length, petal_length)
+```
+
+### Example 3: Filtering by a column
+
+```{r}
+# Method 1: We use the `filter()` function and pass the dataframe and a condition as arguments.
+filter(iris_df, sepal_length > 5.0)
+```
+
+```{r}
+# Method 2
+iris_df %>% 
+  filter(sepal_length > 5.0)
+```
+
+### Example 4: Applying a condition and then filtering multiple columns
+
+```{r}
+# Selecting multiple columns 
+
+# Method 1
+selected_df <- filter(iris_df, sepal_length > 5.0)
+select(selected_df, sepal_length, sepal_width)
+```
+
+```{r}
+# Method 2
+iris_df %>%
+  filter(sepal_length > 5.0) %>%
+  select(sepal_length, sepal_width)
+```
+
+#### Example 5: Creating a new column
+
+```{r}
+# Let's see how we can create a new column using the `mutate()` function. The function takes the column name and the definition of how we compute it's values as the argument.
+iris_df %>% 
+  mutate(sl_sw = sepal_length / sepal_width)
+```
+
+#### Example 6: Creating multiple columns and previewing them
+
+```{r}
+# We can also create multiple columns and preview first 6 columns using multiple arguments and a `head()` function. The `mutate()` and `head()` functions are seperated by a pipe, %>%.
+
+# Create multiple columns and preview the first 6 columns
+iris_df %>% 
+  mutate(sl_pl = sepal_length / petal_length, 
+         pl_pw = petal_length / petal_width) %>% 
+  head()
+```
+
+#### Example 7: Creating multiple columns and then filtering columns
+
+```{r}
+# We can use the `select()` method while creating new columns to select certain columns only.
+
+iris_df %>% 
+  mutate(pl_sl = petal_length / sepal_length) %>%
+  select(sepal_length, sepal_width) %>%
+  head()
+```
+
+### Challenge 1
+
+```{r}
+# Challenge 1: Find records with outlets established in 2002 in the following Shoprity dataset (https://bit.ly/ShoprityDS).
+
+```
+
+### Challenge 2
+
+```{r}
+# Challenge 2: Select all the dairy records in the Shoprity dataset.
+
+```
+
+### Challenge 3
+
+```{r}
+# Challenge 3: Using the Shoprity dataset, how many records had outlet sales less than 2,000. Hint: use the `dim()` function while selecting the records.
+
+```
+
+### Challenge 4
+
+```{r}
+# Challenge 4: Using the Shoprity dataset, get the records with outlet sales between 2,000 and 3,000.
+
+```
+
+## 6. Sorting
+
+### Pre-requisite
+
+```{r}
+# Importing our dataset
+iris_df <- read.csv("http://bit.ly/IrisDataset")
+head(iris_df)
+```
+
+### Example 1: Sorting in ascending order
+
+```{r}
+# Selecting and sorting by a column in ascending order using the arrange() function
+iris_df %>% 
+  select(sepal_length, petal_length) %>%
+  arrange(sepal_length)
+```
+
+### Example 2: Sorting in descending order
+
+```{r}
+# Selecting and sorting by a column in descending order using desc()
+iris_df %>% 
+  select(sepal_length, petal_length) %>%
+  arrange(desc(petal_length))
+```
+
+### Challenge
+
+```{r}
+# Challenge: Sort the items in the Shority dataset by weight in descending order.
+
+```
+
+## 7. Pivot tables  Summary tables
+
+### Pre-requisite
+
+```{r}
+# Importing our dataset for this section
+df <- read.csv("https://bit.ly/2y5CRYc")
+head(df)
+```
+
+### Example 1: Grouping by a single column and performing a mean operation
+
+```{r}
+# Grouping by a single column and performing the mean operation
+df %>%
+  group_by(region) %>%
+  summarize(expenses = mean(expenses))
+```
+
+### Example 2: Grouping by multipe columns and performing a sum operation
+
+```{r}
+# Grouping by multiple columns and performing a sum operation
+df %>%
+  group_by(sex, region) %>%
+  summarize(expenses = sum(expenses))
+```
+
+### Challenge 1
+
+```{r}
+# Challenge 1: Given the following dataset: https://bit.ly/SuperMarketSalesDB, what was the average tax per city?
+
+```
+
+### Challenge 2
+
+```{r}
+# Challenge 2: How much did female members from Yagon spend?
+
+```
+
+## 8. Data Visualization
+
+### Example 1: Creating a bar chart (vertical)
+
+A bar chart is a type of visualisation that presents categorical data with rectangular bars, with heights or lengths proportional to the values that they represent.
+
+```{r}
+# Question: Create a bar chart to show the distribution of total_bill across the days of the week.
+
+# Step 1: Use `ggplot()` function to create a ggplot object and specify dataframe for use. Inside, pass an argument `aes()` function defining the variables to be used.
+# Step 2: We use `geom_col()` to draw a bar graph. Axes labels are automatically added and graphs are arranged in alphabetical order. We set the parameter `stat` to `identity` to set the the heights of the bars to represent the value of each category. We then set a uniform fill and border color using `fill` and `color`arguments.
+# Step 3: To set the title, x and y label text we use the `labs()` function.
+# Step 4: `theme()` centers the title of the plot, sets the size of the text, sets the text family, and rotates the x axis labels.
+
+# Prepare the dataset
+tips_df <- read_csv("https://bit.ly/TipsDataset")
+head(tips_df)
+
+# Create the summary table
+tips_df %>% 
+  group_by(day) %>%
+  summarize(total_bill = sum(total_bill))
+
+# Plotting the chart
+ggplot(tips_df, aes(x = day, y = total_bill)) + 
+  geom_col(
+    stat="identity", width=0.5, fill = "#0099f9"
+  ) +
+  labs(
+    title = "Total Bill for Days of the Week", 
+    x = "Days", 
+    y = "Total Bill"
+  ) + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size=16, family="Times New Roman"), 
+    axis.text.x = element_text(angle = 45)
+  )
+```
+
+### Example 2: Creating a horizontal bar chart
+
+```{r}
+# Question: Create a horizontal bar chart to show the distribution of total_bill across each day of the week.
+
+# Explanation
+# ---
+# `coord_flip()` turns a vertical bar chart into a horizontal bar chart.
+# 
+
+# Prepare the dataset
+tips_df <- read_csv("https://bit.ly/TipsDataset")
+head(tips_df)
+
+# Create the summary table
+tips_df %>% 
+  group_by(day) %>%
+  summarize(total_bill = sum(total_bill))
+
+# Plotting the chart
+ggplot(tips_df, aes(x = day, y = total_bill)) +
+  geom_col(
+    stat="identity", width=0.5, fill = "#0099f9"
+  )  +
+  labs(
+    title = "Total Bill for Days of the Week", 
+    x = "Days", 
+    y = "Total Bill"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size=16, family="Times New Roman"), 
+    axis.text.x = element_text(angle = 45)
+  ) + 
+  coord_flip()
+```
+
+### Example 3: Creating a pie chart
+
+A pie chart is a type of visualization that shows the proportions or percentages between categories by dividing a circle into proportional segments.
+
+```{r}
+# Question: Create a pie chart to describe the distribution of olympic gold medals.
+
+# Explanation:
+# Ggplot2 does not have a specific geometric function to build pie charts. To create a pie chart, we create a bar chart, convert it to a pie chart, then style it (by adding labels, adding a color scale and a title). Let see how we can do this:
+# ----
+# Step 1: Use `ggplot()` function to create a ggplot object and specify dataframe for use. Inside, pass an argument `aes()` function defining the variables to be used. For our case, we will use `goldmedal` variable data, so we map it to the `y` position. `fill` describes the categories. NB: We can also map variables to all kind of other aesthetics such as color, size, and shape.
+# Step 2: Next, use `geom_bar()` to create a bar chart. When the data contains y values in a column, we use stat="identity" and set the width=1 for a full bar width.
+# Step 3: `coord_polar("y", start=0)` converts the bar chart into a pie chart. More specifically, it converts cartesian coordinates to polar coordinates.
+# Step 4: `geom_text()` adds annotations to the plot. Inside we use aesthetics function, `aes()`, to set the label for each section to percentage values and adjust the annotations to the center of the sections.
+# Step 5: Next, `scale_fill_brewer()` adds color to the entire plot using a color pallete: Visit https://bit.ly/3gt5H7z for more color palletes.
+# Step 6: `labs()` sets the legend title and plot title using `fill` and `title` arguments.
+# Step 7: `theme_void()` removes the background, grid and labels.
+
+# Prepare the dataset
+olympics_df <- read_csv("http://bit.ly/OlympicsDataset")
+olympics_df
+
+# Plotting and styling
+ggplot(data=olympics_df, aes(x="", y=gold_medal, fill=country)) +
+  geom_bar(
+    stat="identity", width=0.5, color = "white"
+  ) +
+  coord_polar("y") + 
+  geom_text(
+    aes(label = paste0(round(gold_medal / sum(gold_medal) * 100, 1), "%")), position = position_stack(vjust = 0.5)
+  ) +
+  scale_fill_brewer(palette="Set1") +   
+  labs(
+    fill = "Country", 
+    title = "Olympic Gold Medals Distribution (in Numbers)"
+  ) +
+  theme_void()
+```
+
+### Example 4: Histograms
+
+A histogram is a graphical representation of the distribution of a dataset, displaying the frequency or count of data points within predefined intervals or bins.
+
+```{r}
+# ---
+# Question: Create a histogram to display the frequency distribution of the overall variable in the FIFA dataset.
+# ---
+#
+fifa_df <- read_csv("http://bit.ly/FifaDS")
+head(fifa_df)
+
+histogram <- ggplot(fifa_df, aes(x = Age)) +
+  geom_histogram(
+    bins=10, fill = "cornflowerblue", color = "white"
+  ) + 
+  labs(
+    title = "Distribution of Age", 
+    x = "Age", 
+    y ="Frequency"
+  ) +
+  theme(
+    plot.title = element_text(color = "#0099f9", size = 15, face = "bold", hjust = 0.5), 
+  )
+
+### Exporting the histogram
+
+# Set the width and height of the image in inches
+image_width <- 8
+image_height <- 6
+
+# Save the plot 
+ggsave("histogram", plot = histogram, device = "png", width = image_width, height = image_height)
+```
+
+### Challenge 1
+
+```{r}
+# Question: Create a horizontal bar chart that shows the distribution of population across all continents.
+# Dataset URL = http://bit.ly/CountriesDS
+
+```
+
+### Challenge 2
+
+```{r}
+# Question: Create a histogram to display the of the population data in the following dataset.
+# Dataset URL = http://bit.ly/CountriesDS
+
+```
+
+### Challenge 3
+
+```{r}
+# Question: Display the tasks proportions in a pie chart and then export the visualization
+# Dataset URL = http://bit.ly/TasksData
+
+```
